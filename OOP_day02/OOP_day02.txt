@@ -1,0 +1,115 @@
+课程：Python面向对象
+进度：day02
+
+上次内容回顾
+1.面向对象：以对象为中心
+2.三大特性：封装，继承，多态
+3.如何定义类，如何实现继承
+  class类名称工具，定义一个类
+
+今天内容：
+1.多态：相同的方法,不同的表现形式
+    1)事物除了共性外,还具有各自的特性(个性)
+      多态就是用来处理事物的个性
+    2)多态能够在不影响父类行为(不修改父类代码)情况下,进行功能的扩展和变更
+    3)使程序(软件设计)更具灵活性
+
+2.方法的重写:父类中定义过的方法，子类中重新定义
+    1)凡是经过重写的方法，都是调用子类的
+      凡事没有重写的方法，都是调用父类的
+
+3.多态的实现：通过在子类中重写父类的方法，实现多态
+
+课堂练习：
+    编写一个手机类（Phone）
+    属性：name,price,cpu,screen_size
+    方法：开机startup,关机shutdown,打电话call，发短信send_msg
+    并编写测试代码！~
+
+4.面向对象的技术特征
+    1)构造和析构
+        a)构造方法
+            -名称：在Python中，固定为__init__
+            -作用：是为对象创建属性，并且赋予初始值
+            -调用时机：对象被创建（实例化）自动调用
+            -如果在类中未定义，Python会给出默认的构造方法
+            -在继承关系中，如果父类定义了__init__方法
+             在子类的构造方法中，必须要调用父类的构造方法
+        b)析构方法
+            -名称：__del__
+            -调用时机：对象被销毁时自动调用
+                     del obj，局部变量退出作用于，程序退出
+            -作用：对象销毁时，执行清理操作
+    2)多重继承：一个类有多个父类
+        -如何实现多继承：定义类的时候，继承自多个父类，用逗号隔开
+        -语法格式：
+            class 类名称(父类1，父类2，...)
+                语句块
+        -通过多重继承，子类具有所有父类的特征和行为
+        -如果多个父类具有相同的方法（或属性名称），通过类的__mro__属性中记录的顺序进行方法查找
+         MRO(Method Resolution Order) 方法解析顺序（对象树、菱形继承）
+         总的原则按照由下至上、从左至右（继续列表中前后）进行查找，直到object，如果都没有找到就报错
+         *object/父类 查询方法：print(SuperMan.__bases__)
+            多重继承：xx.__bases__
+            单继承：  xx.__bases__ 或 xx.__base__
+         *继承举例：__builtins__ 、菜单包含子菜单（菜单是一个类）
+            *python中help(__builtins__)用法
+    3)object类：所有类的总父类，如果定义类时候，没有指定父类，则默认从object类继承
+               类的父类可以通过__base__/__bases__属性查看
+    4)super() 和 issubclass()
+        -super()函数
+         作用：返回绑定的父类
+              有时候需要显式调用父类方法时，就需要使用super()函数
+         格式：super(class type,obj) 返回obj对象父类
+              super()         返回当前对象父类，只能在类的方法中调用
+        -issubclass(A,B): 判断 前一个类A 是否是 后一个类B或类的元组 的子类
+                     如果是返回  True
+                     如果不是返回 False
+                     *B可以是包含多个类的元组,只要A是B中某类的子类，既返回 True
+                     *issubclass(A,A)  # True
+
+5.函数重写(重点！！！)
+    1）对象转字符串函数的重写
+        -str：将对象转换成人阅读的字符串
+              重写__str__()
+        -repr：返回字符串，给Python解释器阅读
+              通过eval(repr(obj))能够还原obj对象
+              重写__repr__()
+        *当调用str(obj)将对象转换成字符串时，其搜索顺序为：
+            +优先查找obj.__str__()方法（包括父类）
+            +如果上一步不存在，则调用obj.__repr__()
+            +如果上一步不存在，则调用object.__repr__()
+    2）内建函数的重写
+        -abs()函数        重写__abs__()
+        -len()函数        重写__len__()
+        -reverse()函数    重写__reverse__()
+        -round()函数      重写__round__()
+
+6.属性管理函数：操作对象属性
+    1）getattr：获取对象属性值
+        -格式：getattr(obj,name[,default])
+        -作用：getattr(x,'y') 等同于 x.y
+    2）setattr：设置对象属性值
+        -格式：setattr(obj,name,value)
+        -作用：setattr(x,'y','zzz') 等同于 x.y = 'zzz'
+    3）hasattr：判断有没有某个属性值
+        -格式：hasattr(obj,name)
+        -返回：bool布尔类型，有-True  没有-False
+    4）delattr：删除对象某个属性值
+        -格式：delattr(obj,name)
+        -作用：delattr(x,'y') 等同于 del x.y 表达式
+
+作业：
+    1）编写一个账户类(Account)
+       属性：账号 acct_no, 户名 acct_name, 开户日期 reg_data,
+            类型 acct_type(借记卡、贷记卡)
+            状态 acct_status（正常、挂失、冻结、注销）
+            余额 balance
+       方法：存款 diposite
+            取款 draw
+            冻结 freeze
+            解冻 unfreeze
+            挂失 report_loss
+            解挂 relive_loss
+            修改账户信息 modify_acct_info
+    2）编写测试代码
